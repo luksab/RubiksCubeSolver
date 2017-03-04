@@ -34,6 +34,13 @@ void setup() {
   // Start capturing the images from the camera
   video.start();
   totalPixels = h*h;
+
+  for(int i=0;i<6;i++){
+   for(int b=0;b<size*size;b++){
+   cube[i][b] = i;
+   }
+   }
+   print("rot unten, weiss vorne, dann weiss oben und rot vorne, im Uhrzeigersinn drehen, gelb mit grün oben.");
 }
 
 void draw() {
@@ -143,9 +150,11 @@ void keyPressed() {
         println(i);
       }
     }
-    if (keyCode == RIGHT && numSides==size) {
+    if (keyCode == RIGHT/* && numSides==6*/) {
       Kjub = new Cube(cube);
-    }
+      Kjub.print();
+    } else if (keyCode == RIGHT)
+      print("FELA"+numSides);
   } else {
   }
 }

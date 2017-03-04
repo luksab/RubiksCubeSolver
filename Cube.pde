@@ -473,12 +473,12 @@ public void print()
 {
   for (int i = 0; i < 12; i++)
   {
-    System.out.println("Edge " + i  + "  |  " + edges.get(i).n + "  |  " +  edges.get(i).o);
+    println("Edge " + i  + "  |  " + edges.get(i).n + "  |  " +  edges.get(i).o);
   }
-  System.out.println("-----------------------------------------------------------");
+  println("-----------------------------------------------------------");
   for (int i = 0; i < 8; i++)
   {
-    System.out.println("Corner " + i  + "  |  " + corners.get(i).n + "  |  " +  corners.get(i).o);
+    println("Corner " + i  + "  |  " + corners.get(i).n + "  |  " +  corners.get(i).o);
   }
 }
 
