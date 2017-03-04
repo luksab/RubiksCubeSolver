@@ -9,15 +9,18 @@
 import processing.video.*;
 import java.awt.Color;
 
+Cube Kjub;
 Capture video;
+byte numSides = 0;
+byte size = 3;
 long totalR = 0;
 long totalG = 0;
 long totalB = 0;
 long totalPixels;
 float[] hsb = {0, 0, 0};
-int h = 720/5;
-int[][] cube = new int[6][5*5];
-int[] side = new int[5*5];
+int h = 720/size;
+int[][] cube = new int[6][size*size];
+int[] side = new int[size*size];
 
 
 void setup() {
@@ -41,8 +44,8 @@ void draw() {
     video.loadPixels();
 
     //long timeOld = millis();
-    for (int a=0; a<5; a++) {
-      for (int b=0; b<5; b++) {
+    for (int a=0; a<size; a++) {
+      for (int b=0; b<size; b++) {
         //new Kolor().start();
         totalR = 0;
         totalG = 0;
@@ -57,7 +60,7 @@ void draw() {
           }
         }
         Color.RGBtoHSB((int)(totalR/totalPixels), (int)(totalG/totalPixels), (int)(totalB/totalPixels), hsb);
-        side[(a*5)+b] = ClassifyInt(hsb);
+        side[(a*size)+b] = ClassifyInt(hsb);
         //if (b==4)
         //  println(Classify(hsb));
         //else
@@ -106,31 +109,32 @@ public int ClassifyInt(float[] hsb)
   if (sat < 0.3) return 0;
 
   if (hue < 0.05)   return 1;
-  if (hue < 0.2)   return 2;
+  if (hue < 0.2)   return 5;
   if (hue < 0.55)  return 4;
-  if (hue < 0.7)  return 5;
+  if (hue < 0.7)  return 2;
   if (hue < 0.97)  return 3;
-  if (hue < 1)  return 2;
+  if (hue < 1)  return 1;
   else return -1;
 }
 
 void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
-      cube[side[13]] = side;
-      for (int a=0; a<5; a++) {
-        for (int b=0; b<5; b++) {
-          if (b==4)
-            println(cube[side[13]][(a*5)+b]);
+      cube[side[(int)((size/2)*size)]] = side;
+      numSides ++;
+      for (int a=0; a<size; a++) {
+        for (int b=0; b<size; b++) {
+          if (b==size-1)
+            println(cube[side[(int)((size/2)*size)]][(a*size)+b]);
           else
-            print(cube[side[13]][(a*5)+b]+" | ");
+            print(cube[side[(int)((size/2)*size)]][(a*size)+b]+" | ");
         }
       }
     } else if (keyCode == DOWN) {
-      for (int i=0; i<6; i++) {
-        for (int a=0; a<5; a++) {
-          for (int b=0; b<5; b++) {
-            if (b==4)
+      for (int i=0; i<=size; i++) {
+        for (int a=0; a<size; a++) {
+          for (int b=0; b<size; b++) {
+            if (b==size-1)
               println(cube[i][a*b]);
             else
               print(cube[i][a*b]+" | ");
@@ -139,21 +143,9 @@ void keyPressed() {
         println(i);
       }
     }
-  } else {
-  }
-}
-
-class Kolor extends Thread {
-
-  public void run() {
-    for (int j = 0; j < video.height; j ++) {
-      for (int i = 80; i < video.width-80; i ++) {
-        int pixelColor = video.pixels[j*video.width + i];
-
-        totalR += (pixelColor >> 16) & 0xff;
-        totalG += (pixelColor >> 8) & 0xff;
-        totalB += pixelColor & 0xff;
-      }
+    if (keyCode == RIGHT && numSides==size) {
+      Kjub = new Cube(cube);
     }
+  } else {
   }
 }
