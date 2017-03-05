@@ -35,12 +35,12 @@ void setup() {
   video.start();
   totalPixels = h*h;
 
-  for(int i=0;i<6;i++){
-   for(int b=0;b<size*size;b++){
-   cube[i][b] = i;
-   }
-   }
-   print("rot unten, weiss vorne, dann weiss oben und rot vorne, im Uhrzeigersinn drehen, gelb mit grün oben.");
+  for (int i=0; i<6; i++) {
+    for (int b=0; b<size*size; b++) {
+      cube[i][b] = i;
+    }
+  }
+  print("rot unten, weiss vorne, dann weiss oben und rot vorne, im Uhrzeigersinn drehen, gelb mit grün oben.");
 }
 
 void draw() {
