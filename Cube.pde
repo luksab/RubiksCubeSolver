@@ -270,7 +270,7 @@ public class Cube
       {
         if(t != 0 && (i == 7 || i == 3 + t))
         {
-         return((2 * ((i + 4 - t) % 4 + (4 *(int)(i / 4)))) + 1 - edges.get(i).o);
+          return((2 * ((i + 4 - t) % 4 + (4 *(int)(i / 4)))) + 1 - edges.get(i).o);
         }
         return((2 * ((i + 4 - t) % 4 + (4 *(int)(i / 4)))) + edges.get(i).o);
       }
@@ -287,7 +287,507 @@ public class Cube
       }
     }
     return -1;
-  } 
+  }
+
+  public Cube(int[][] c)
+  {
+    int e;
+    int z;
+    int d;
+    e=c[0][7];
+    z=c[1][1];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 0, 1)));
+
+    e=c[0][5];
+    z=c[2][1];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 0, 2)));
+
+    e=c[0][1];
+    z=c[3][1];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 0, 3)));
+
+    e=c[0][3];
+    z=c[4][1];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 0, 4)));
+
+    e=c[1][5];
+    z=c[2][3];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 1, 2)));
+
+    e=c[2][5];
+    z=c[3][3];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 2, 3)));
+
+    e=c[3][5];
+    z=c[4][3];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 3, 4)));
+
+    e=c[4][5];
+    z=c[1][3];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 4, 1)));
+
+    e=c[1][7];
+    z=c[5][5];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 1, 5)));
+
+    e=c[2][7];
+    z=c[5][7];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 2, 5)));
+
+    e=c[3][7];
+    z=c[5][3];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 3, 5)));
+
+    e=c[4][7];
+    z=c[5][1];
+    edges.put(intToEdgeE(e, z), new Edge(intToEdgeE(e, z), intToOrientE(e, z, 4, 5)));
+
+
+    e=c[0][8];
+    z=c[1][2];
+    d=c[2][2];
+    corners.put(intToEdgeC(e, z, d), new Corner(intToEdgeC(e, z, d), intToOrientC(e, z, d, 0, 1, 2)));
+
+    e=c[0][2];
+    z=c[2][2];
+    d=c[3][0];
+    corners.put(intToEdgeC(e, z, d), new Corner(intToEdgeC(e, z, d), intToOrientC(e, z, d, 0, 2, 3)));
+
+    e=c[0][0];
+    z=c[3][2];
+    d=c[4][0];
+    corners.put(intToEdgeC(e, z, d), new Corner(intToEdgeC(e, z, d), intToOrientC(e, z, d, 0, 3, 4)));
+
+    e=c[0][6];
+    z=c[1][0];
+    d=c[4][2];
+    corners.put(intToEdgeC(e, z, d), new Corner(intToEdgeC(e, z, d), intToOrientC(e, z, d, 0, 1, 4)));
+
+    e=c[1][8];
+    z=c[2][6];
+    d=c[5][8];
+    corners.put(intToEdgeC(e, z, d), new Corner(intToEdgeC(e, z, d), intToOrientC(e, z, d, 1, 2, 5)));
+
+    e=c[2][8];
+    z=c[3][6];
+    d=c[5][6];
+    corners.put(intToEdgeC(e, z, d), new Corner(intToEdgeC(e, z, d), intToOrientC(e, z, d, 2, 3, 5)));
+
+    e=c[3][8];
+    z=c[4][6];
+    d=c[5][0];
+    corners.put(intToEdgeC(e, z, d), new Corner(intToEdgeC(e, z, d), intToOrientC(e, z, d, 3, 4, 5)));
+
+    e=c[1][6];
+    z=c[4][8];
+    d=c[5][2];
+    corners.put(intToEdgeC(e, z, d), new Corner(intToEdgeC(e, z, d), intToOrientC(e, z, d, 1, 4, 5)));
+  }
+
+  private byte intToOrientC(int a, int b, int c, int d, int e, int f) {
+    if (d==min(d, e, f)) {
+      if (a==min(a, b, c)) 
+        return 0;
+      else if (a==min(a, b, c))
+        return 2;
+      else
+        return 1;
+    } else if (e==min(d, e, f)) {
+      if (b==min(a, b, c)) 
+        return 0;
+      else if (b==max(a, b, c))
+        return 2;
+      else
+        return 1;
+    } else {
+      if (c==min(a, b, c)) 
+        return 0;
+      else if (c==max(a, b, c))
+        return 2;
+      else
+        return 1;
+    }
+  }
+
+  private int intToEdgeC(int a, int b, int c) {
+    switch(a) {
+    case 0:
+      switch(b) {
+      case 1:
+        switch(c) {
+        case 2:
+          return 0;
+        case 4:
+          return 3;
+        }
+      case 2:
+        switch(c) {
+        case 1:
+          return 0;
+        case 3:
+          return 1;
+        }
+      case 3:
+        switch(c) {
+        case 2:
+          return 1;
+        case 4:
+          return 2;
+        }
+      case 4:
+        switch(c) {
+        case 3:
+          return 2;
+        case 1:
+          return 3;
+        }
+      }
+    case 1:
+      switch(b) {
+      case 0:
+        switch(c) {
+        case 2:
+          return 0;
+        case 4:
+          return 3;
+        }
+      case 2:
+        switch(c) {
+        case 0:
+          return 0;
+        case 5:
+          return 4;
+        }
+      case 4:
+        switch(c) {
+        case 0:
+          return 3;
+        case 5:
+          return 7;
+        }
+      case 5:
+        switch(c) {
+        case 4:
+          return 7;
+        case 2:
+          return 4;
+        }
+      }
+    case 2:
+      switch(b) {
+      case 0:
+        switch(c) {
+        case 1:
+          return 0;
+        case 3:
+          return 1;
+        }
+      case 1:
+        switch(c) {
+        case 0:
+          return 0;
+        case 5:
+          return 4;
+        }
+      case 3:
+        switch(c) {
+        case 0:
+          return 1;
+        case 5:
+          return 5;
+        }
+      case 5:
+        switch(c) {
+        case 3:
+          return 5;
+        case 1:
+          return 4;
+        }
+      }
+    case 3:
+      switch(b) {
+      case 0:
+        switch(c) {
+        case 2:
+          return 1;
+        case 4:
+          return 2;
+        }
+      case 2:
+        switch(c) {
+        case 0:
+          return 1;
+        case 5:
+          return 5;
+        }
+      case 4:
+        switch(c) {
+        case 0:
+          return 2;
+        case 5:
+          return 6;
+        }
+      case 5:
+        switch(c) {
+        case 2:
+          return 5;
+        case 4:
+          return 6;
+        }
+      }
+    case 4:
+      switch(b) {
+      case 0:
+        switch(c) {
+        case 1:
+          return 3;
+        case 3:
+          return 2;
+        }
+      case 1:
+        switch(c) {
+        case 0:
+          return 0;
+        case 5:
+          return 7;
+        }
+      case 3:
+        switch(c) {
+        case 0:
+          return 2;
+        case 5:
+          return 6;
+        }
+      case 5:
+        switch(c) {
+        case 3:
+          return 6;
+        case 1:
+          return 7;
+        }
+      }
+    case 5:
+      switch(b) {
+      case 1:
+        switch(c) {
+        case 2:
+          return 4;
+        case 4:
+          return 7;
+        }
+      case 2:
+        switch(c) {
+        case 1:
+          return 4;
+        case 3:
+          return 5;
+        }
+      case 3:
+        switch(c) {
+        case 2:
+          return 5;
+        case 4:
+          return 6;
+        }
+      case 4:
+        switch(c) {
+        case 3:
+          return 6;
+        case 1:
+          return 7;
+        }
+      }
+    }
+    return -1;
+  }
+
+
+
+  private int intToEdgeE(int e, int z) {
+    switch(e) {
+    case 0:
+      switch(z) {
+      case 1:
+        return 0;
+      case 2:
+        return 1;
+      case 3:
+        return 2;
+      case 4:
+        return 3;
+      }
+    case 1:
+      switch(z) {
+      case 0:
+        return 0;
+      case 2:
+        return 4;
+      case 5:
+        return 8;
+      case 4:
+        return 7;
+      } 
+    case 2:
+      switch(z) {
+      case 0:
+        return 1;
+      case 1:
+        return 4;
+      case 3:
+        return 5;
+      case 5:
+        return 9;
+      }
+    case 3:
+      switch(z) {
+      case 0:
+        return 2;
+      case 2:
+        return 5;
+      case 4:
+        return 6;
+      case 5:
+        return 10;
+      } 
+    case 4:
+      switch(z) {
+      case 0:
+        return 3;
+      case 3:
+        return 6;
+      case 5:
+        return 11;
+      case 1:
+        return 7;
+      } 
+    case 5:
+      switch(z) {
+      case 1:
+        return 8;
+      case 2:
+        return 9;
+      case 3:
+        return 10;
+      case 4:
+        return 11;
+      }
+    }
+    return -1;
+  }
+
+  private byte intToOrientE(int a, int b, int c, int d) {
+    if ((a-b)*(c-d) > 0)
+      return 0;
+    else return 1;
+  }
+
+  public void cross()
+  {
+    Edge e = suchEN(0);
+    switch(12 * e.o + e.n)
+    {
+    case 0:
+      break;
+    case 1:
+      move(0, 1);
+      break;
+    case 2:
+      move(0, 2);
+      break;
+    case 3:
+      move(0, 3);
+      break;
+    case 4:
+      move(2, 1);
+      move(0, 1);
+      break;
+    case 5:
+      move(3, 1);
+      move(0, 2);
+      break;
+    case 6:
+      move(4, 1);
+      move(0, 3);
+      break;
+    case 7:
+      move(4, 3);
+      move(0, 3);
+      break;
+    case 8:
+      move(5, 1);
+      move(2, 1);
+      move(1, 3);
+      break;
+    case 9:
+      move(2, 1);
+      move(1, 3);
+      break;
+    case 10:
+      move(5, 3);
+      move(2, 1);
+      move(1, 3);
+      break;
+    case 11:
+      move(5, 3);
+      move(1, 1);
+      break;
+    case 12:
+      move(1, 1);
+      move(2, 1);
+      move(0, 1);
+      break;
+    case 13:
+      move(2, 3);
+      move(2, 3);
+      break;
+    case 14:
+      move(3, 1);
+      move(4, 1);
+      move(0, 3);
+      break;
+    case 15:
+      move(4, 1);
+      move(2, 1);
+      break;
+    case 16:
+      move(1, 3);
+      break;
+    case 17:
+      move(2, 3);
+      move(0, 1);
+      break;
+    case 18:
+      move(3, 3);
+      move(0, 2);
+      break;
+    case 19:
+      move(1, 1);
+      break;
+    case 20:
+      move(1, 2);
+      break;
+    case 21:
+      move(5, 3);
+      move(1, 2);
+      break;
+    case 22:
+      move(5, 2);
+      move(1, 2);
+      break;
+    case 23:
+      move(5, 1);
+      move(1, 2);
+      break;
+    }
+  }
+
+  public Edge suchEN(int e)
+  {
+    for (int i=0; i<12; i++)
+      if (edges.get(i).n == e)
+        return edges.get(i);
+    return edges.get(500);
+  }
 
   public void print()
   {
